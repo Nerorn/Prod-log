@@ -16,7 +16,6 @@ O sistema consiste em uma aplicação web para o gerenciamento de inventário, p
 * **Controle de Versão**: GitHub.
 
 ## 📝 Histórias de Usuário
-Conforme os requisitos de ~2 histórias por membro do time:
 
 1. **Acesso ao Sistema**: Como administrador, quero realizar login para acessar as funcionalidades de gestão de estoque com segurança.
 2. **Cadastro de Itens**: Como usuário, quero cadastrar novos produtos (nome, descrição, preço, estoque) para manter o catálogo atualizado.
