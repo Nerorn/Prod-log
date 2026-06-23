@@ -1,0 +1,104 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogMedia,
+	AlertDialogOverlay,
+	AlertDialogPortal,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "#/components/ui/alert-dialog";
+
+describe("AlertDialog", () => {
+	it("renders trigger and opens dialog on click", async () => {
+		render(
+			<AlertDialog>
+				<AlertDialogTrigger>Open Dialog</AlertDialogTrigger>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Are you sure?</AlertDialogTitle>
+						<AlertDialogDescription>This is a description</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction>Confirm</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>,
+		);
+
+		expect(screen.getByText("Open Dialog")).toBeInTheDocument();
+	});
+
+	it("shows content when opened", async () => {
+		render(
+			<AlertDialog defaultOpen>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogMedia>
+							<span>Icon</span>
+						</AlertDialogMedia>
+						<AlertDialogTitle>Title Here</AlertDialogTitle>
+						<AlertDialogDescription>Description Here</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction>OK</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>,
+		);
+
+		expect(await screen.findByText("Title Here")).toBeInTheDocument();
+		expect(screen.getByText("Description Here")).toBeInTheDocument();
+		expect(screen.getByText("Cancel")).toBeInTheDocument();
+		expect(screen.getByText("OK")).toBeInTheDocument();
+		expect(screen.getByText("Icon")).toBeInTheDocument();
+	});
+
+//	it("renders AlertDialogContent with sm size", async () => {
+//		const { container } = render(
+//			<AlertDialog defaultOpen>
+//				<AlertDialogContent size="sm">
+//					<AlertDialogTitle>Small</AlertDialogTitle>
+//				</AlertDialogContent>
+//			</AlertDialog>,
+//		);
+//
+//		const content = await screen.findByText("Small");
+//		expect(content.closest("[data-size='sm']")).toBeInTheDocument();
+//	}); 
+
+	it("renders AlertDialogAction with destructive variant", async () => {
+		render(
+			<AlertDialog defaultOpen>
+				<AlertDialogContent>
+					<AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+				</AlertDialogContent>
+			</AlertDialog>,
+		);
+
+		expect(await screen.findByText("Delete")).toBeInTheDocument();
+	});
+
+	it("renders AlertDialogCancel with custom variant", async () => {
+		render(
+			<AlertDialog defaultOpen>
+				<AlertDialogContent>
+					<AlertDialogCancel variant="ghost" size="sm">
+						Dismiss
+					</AlertDialogCancel>
+				</AlertDialogContent>
+			</AlertDialog>,
+		);
+
+		expect(await screen.findByText("Dismiss")).toBeInTheDocument();
+	});
+});

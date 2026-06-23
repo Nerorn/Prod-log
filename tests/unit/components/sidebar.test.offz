@@ -1,0 +1,44 @@
+import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+
+import { Sidebar } from "#/components/sidebar";
+
+// Mock tanstack router Link component
+vi.mock("@tanstack/react-router", () => ({
+	Link: ({ children, to, ...props }: any) => (
+		<a href={to} {...props}>
+			{children}
+		</a>
+	),
+}));
+
+describe("Sidebar", () => {
+	it("renders the brand name", () => {
+		render(<Sidebar />);
+		expect(screen.getByText("prodlog")).toBeInTheDocument();
+	});
+
+	it("renders Produtos link", () => {
+		render(<Sidebar />);
+		expect(screen.getByText("Produtos")).toBeInTheDocument();
+	});
+
+	it("renders Usuários link", () => {
+		render(<Sidebar />);
+		expect(screen.getByText("Usuários")).toBeInTheDocument();
+	});
+
+	it("has navigation element", () => {
+		render(<Sidebar />);
+		const nav = document.querySelector("nav");
+		expect(nav).toBeInTheDocument();
+	});
+
+	it("links point to correct routes", () => {
+		render(<Sidebar />);
+		const links = document.querySelectorAll("a");
+		const hrefs = Array.from(links).map((l) => l.getAttribute("href"));
+		expect(hrefs).toContain("/products");
+		expect(hrefs).toContain("/users");
+	});
+});
